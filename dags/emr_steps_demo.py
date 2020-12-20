@@ -8,11 +8,9 @@ from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
 
-# ************** AIRFLOW VARIABLES **************
 airflow_email = Variable.get('airflow_email')
 release_label = Variable.get('release_label')
 emr_ec2_key_pair = Variable.get('emr_ec2_key_pair')
-# ***********************************************
 
 DAG_ID = os.path.basename(__file__).replace('.py', '')
 
