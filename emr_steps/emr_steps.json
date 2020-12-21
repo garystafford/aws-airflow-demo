@@ -1,0 +1,78 @@
+[
+  {
+    "Name": "Bakery Sales",
+    "ActionOnFailure": "CONTINUE",
+    "HadoopJarStep": {
+      "Jar": "command-runner.jar",
+      "Args": [
+        "spark-submit",
+        "--deploy-mode",
+        "cluster",
+        "--master",
+        "yarn",
+        "--conf",
+        "spark.yarn.submit.waitAppCompletion=true",
+        "s3a://{{ var.value.work_bucket }}/analyze/bakery_sales_ssm.py"
+      ]
+    }
+  },
+  {
+    "Name": "Movie Choices",
+    "ActionOnFailure": "CONTINUE",
+    "HadoopJarStep": {
+      "Jar": "command-runner.jar",
+      "Args": [
+        "spark-submit",
+        "--deploy-mode",
+        "cluster",
+        "--master",
+        "yarn",
+        "--conf",
+        "spark.yarn.submit.waitAppCompletion=true",
+        "s3a://{{ var.value.work_bucket }}/analyze/movie_choices_ssm.py"
+      ]
+    }
+  },
+  {
+    "Name": "Movie Ratings",
+    "ActionOnFailure": "CONTINUE",
+    "HadoopJarStep": {
+      "Jar": "command-runner.jar",
+      "Args": [
+        "spark-submit",
+        "--deploy-mode",
+        "cluster",
+        "--master",
+        "yarn",
+        "--conf",
+        "spark.yarn.submit.waitAppCompletion=true",
+        "s3a://{{ var.value.work_bucket }}/analyze/movies_avg_ratings_ssm.py",
+        "--start-date",
+        "2016-01-01 00:00:00",
+        "--end-date",
+        "2016-12-31 23:59:59"
+      ]
+    }
+  },
+  {
+    "Name": "Stock Volatility",
+    "ActionOnFailure": "CONTINUE",
+    "HadoopJarStep": {
+      "Jar": "command-runner.jar",
+      "Args": [
+        "spark-submit",
+        "--deploy-mode",
+        "cluster",
+        "--master",
+        "yarn",
+        "--conf",
+        "spark.yarn.submit.waitAppCompletion=true",
+        "s3a://{{ var.value.work_bucket }}/analyze/stock_volatility_ssm.py",
+        "--start-date",
+        "2017-01-01",
+        "--end-date",
+        "2018-12-31"
+      ]
+    }
+  }
+]

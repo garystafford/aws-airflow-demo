@@ -1,0 +1,72 @@
+{
+  "Name": "demo-airflow-cluster",
+  "ReleaseLabel": "{{ var.value.release_label }}",
+  "LogUri": "s3n://{{ var.value.logs_bucket }}",
+  "Applications": [
+    {
+      "Name": "Spark"
+    }
+  ],
+  "Instances": {
+    "InstanceFleets": [
+      {
+        "Name": "MASTER",
+        "InstanceFleetType": "MASTER",
+        "TargetSpotCapacity": 1,
+        "InstanceTypeConfigs": [
+          {
+            "InstanceType": "m5.xlarge"
+          }
+        ]
+      },
+      {
+        "Name": "CORE",
+        "InstanceFleetType": "CORE",
+        "TargetSpotCapacity": 2,
+        "InstanceTypeConfigs": [
+          {
+            "InstanceType": "r5.2xlarge"
+          }
+        ]
+      }
+    ],
+    "KeepJobFlowAliveWhenNoSteps": false,
+    "TerminationProtected": false,
+    "Ec2KeyName": "{{ var.value.emr_ec2_key_pair }}"
+  },
+  "BootstrapActions": [
+    {
+      "Name": "string",
+      "ScriptBootstrapAction": {
+        "Path": "s3://{{ var.value.bootstrap_bucket }}/bootstrap_actions.sh"
+      }
+    }
+  ],
+  "Configurations": [
+    {
+      "Classification": "spark-hive-site",
+      "Properties": {
+        "hive.metastore.client.factory.class": "com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory"
+      }
+    }
+  ],
+  "VisibleToAllUsers": true,
+  "JobFlowRole": "{{ var.value.job_flow_role }}",
+  "ServiceRole": "{{ var.value.service_role }}",
+  "EbsRootVolumeSize": 32,
+  "StepConcurrencyLevel": 5,
+  "Tags": [
+    {
+      "Key": "Environment",
+      "Value": "Development"
+    },
+    {
+      "Key": "Name",
+      "Value": "EMR Airflow Demo"
+    },
+    {
+      "Key": "Owner",
+      "Value": "Data Analytics Team"
+    }
+  ]
+}
