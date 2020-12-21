@@ -9,7 +9,6 @@ from airflow.models import Variable
 from airflow.utils.dates import days_ago
 
 # ************** AIRFLOW VARIABLES **************
-airflow_email = Variable.get('airflow_email')
 release_label = Variable.get('release_label')
 emr_ec2_key_pair = Variable.get('emr_ec2_key_pair')
 work_bucket = Variable.get('work_bucket')
@@ -24,9 +23,9 @@ DAG_ID = os.path.basename(__file__).replace('.py', '')
 DEFAULT_ARGS = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'email': ['{{ var.value.airflow_email }}'],
-    'email_on_failure': False,
-    'email_on_retry': False,
+    'email': ["{{ dag_run.conf['airflow_email'] }}"],
+    'email_on_failure': ["{{ dag_run.conf['email_on_failure'] }}"],
+    'email_on_retry': ["{{ dag_run.conf['email_on_retry'] }}"],
 }
 
 SPARK_STEPS = [

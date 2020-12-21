@@ -5,19 +5,14 @@ from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
-from airflow.models import Variable
 from airflow.utils.dates import days_ago
-
-airflow_email = Variable.get('airflow_email')
-release_label = Variable.get('release_label')
-emr_ec2_key_pair = Variable.get('emr_ec2_key_pair')
 
 DAG_ID = os.path.basename(__file__).replace('.py', '')
 
 DEFAULT_ARGS = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'email': ['{{ var.value.airflow_email }}'],
+    'email': ['airflow@example.com'],
     'email_on_failure': False,
     'email_on_retry': False,
 }
@@ -35,7 +30,7 @@ SPARK_STEPS = [
 
 JOB_FLOW_OVERRIDES = {
     'Name': 'demo-airflow-cluster',
-    'ReleaseLabel': '{{ var.value.release_label }}',
+    'ReleaseLabel': 'emr-6.2.0',
     'Applications': [
         {
             'Name': 'Spark'
@@ -49,18 +44,11 @@ JOB_FLOW_OVERRIDES = {
                 'InstanceRole': 'MASTER',
                 'InstanceType': 'm5.xlarge',
                 'InstanceCount': 1,
-            },
-            {
-                'Name': 'Slave nodes',
-                'Market': 'ON_DEMAND',
-                'InstanceRole': 'CORE',
-                'InstanceType': 'm5.xlarge',
-                'InstanceCount': 2,
             }
         ],
         'KeepJobFlowAliveWhenNoSteps': False,
         'TerminationProtected': False,
-        'Ec2KeyName': '{{ var.value.emr_ec2_key_pair }}',
+        'Ec2KeyName': "{{ dag_run.conf['emr_ec2_key_pair'] }}",
     },
     'VisibleToAllUsers': True,
     'JobFlowRole': 'EMR_EC2_DefaultRole',

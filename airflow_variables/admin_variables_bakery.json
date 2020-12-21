@@ -1,5 +1,4 @@
 {
-    "airflow_email": "garystaf@amazon.com",
     "bootstrap_bucket": "emr-demo-bootstrap-123456789012-us-east-1",
     "emr_ec2_key_pair": "emr-demo-123456789012-us-east-1",
     "job_flow_role": "EMR_EC2_DemoRole",
@@ -7,4 +6,4 @@
     "release_label": "emr-6.2.0",
     "service_role": "EMR_DemoRole",
     "work_bucket": "emr-demo-work-123456789012-us-east-1"
-}   
+}
