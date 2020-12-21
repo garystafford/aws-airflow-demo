@@ -11,13 +11,13 @@ from airflow.models import Variable
 from airflow.utils.dates import days_ago
 
 # ************** AIRFLOW VARIABLES **************
-release_label = Variable.get('release_label')
-emr_ec2_key_pair = Variable.get('emr_ec2_key_pair')
-work_bucket = Variable.get('work_bucket')
-logs_bucket = Variable.get('logs_bucket')
 bootstrap_bucket = Variable.get('bootstrap_bucket')
+emr_ec2_key_pair = Variable.get('emr_ec2_key_pair')
 job_flow_role = Variable.get('job_flow_role')
+logs_bucket = Variable.get('logs_bucket')
+release_label = Variable.get('release_label')
 service_role = Variable.get('service_role')
+work_bucket = Variable.get('work_bucket')
 # ***********************************************
 
 DAG_ID = os.path.basename(__file__).replace('.py', '')
