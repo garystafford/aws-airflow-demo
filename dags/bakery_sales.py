@@ -105,7 +105,7 @@ JOB_FLOW_OVERRIDES = {
     'JobFlowRole': '{{ var.value.job_flow_role }}',
     'ServiceRole': '{{ var.value.service_role }}',
     'EbsRootVolumeSize': 32,
-    'StepConcurrencyLevel': 5,
+    'StepConcurrencyLevel': 1,
     "Tags": [
         {
             "Key": "Environment",
