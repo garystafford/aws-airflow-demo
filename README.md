@@ -1,4 +1,4 @@
-# Run PySpark Applications on Amazon EMR using Apache Airflow
+# Running PySpark Applications on Amazon EMR using Apache Airflow
 
 ## Overview
 
