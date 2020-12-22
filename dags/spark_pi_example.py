@@ -48,7 +48,6 @@ JOB_FLOW_OVERRIDES = {
         ],
         'KeepJobFlowAliveWhenNoSteps': False,
         'TerminationProtected': False,
-        'Ec2KeyName': "{{ dag_run.conf['emr_ec2_key_pair'] }}",
     },
     'VisibleToAllUsers': True,
     'JobFlowRole': 'EMR_EC2_DefaultRole',
