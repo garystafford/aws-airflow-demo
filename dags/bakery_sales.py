@@ -106,18 +106,18 @@ JOB_FLOW_OVERRIDES = {
     'ServiceRole': '{{ var.value.service_role }}',
     'EbsRootVolumeSize': 32,
     'StepConcurrencyLevel': 5,
-    'Tags': [
+    "Tags": [
         {
-            'Key': 'Environment',
-            'Value': 'Development'
+            "Key": "Environment",
+            "Value": "Development"
         },
         {
-            'Key': 'Name',
-            'Value': 'EMR Airflow Demo'
+            "Key": "Name",
+            "Value": "EMR Demo Project"
         },
         {
-            'Key': 'Owner',
-            'Value': 'Data Analytics Team'
+            "Key": "Owner",
+            "Value": "Data Analytics Team"
         }
     ]
 }

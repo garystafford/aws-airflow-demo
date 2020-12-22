@@ -51,7 +51,21 @@ JOB_FLOW_OVERRIDES = {
     },
     'VisibleToAllUsers': True,
     'JobFlowRole': 'EMR_EC2_DefaultRole',
-    'ServiceRole': 'EMR_DefaultRole'
+    'ServiceRole': 'EMR_DefaultRole',
+    "Tags": [
+        {
+            "Key": "Environment",
+            "Value": "Development"
+        },
+        {
+            "Key": "Name",
+            "Value": "EMR Demo Project"
+        },
+        {
+            "Key": "Owner",
+            "Value": "Data Analytics Team"
+        }
+    ]
 }
 
 with DAG(
