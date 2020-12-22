@@ -1,5 +1,5 @@
 {
     "airflow_email": "analytics_team@example.com",
-    "email_on_failure": true,
+    "email_on_failure": false,
     "email_on_retry": false
 }
