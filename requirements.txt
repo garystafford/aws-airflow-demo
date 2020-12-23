@@ -1,1 +1,2 @@
 apache-airflow==1.10.12
+boto3~=1.14.20

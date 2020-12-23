@@ -28,7 +28,7 @@ SPARK_STEPS = [
 ]
 
 JOB_FLOW_OVERRIDES = {
-    'Name': 'demo-airflow-cluster',
+    'Name': 'demo-cluster-airflow',
     'ReleaseLabel': 'emr-6.2.0',
     'Applications': [
         {

@@ -48,7 +48,7 @@ SPARK_STEPS = [
 ]
 
 JOB_FLOW_OVERRIDES = {
-    'Name': 'demo-airflow-cluster',
+    'Name': 'demo-cluster-airflow',
     'ReleaseLabel': '{{ var.value.release_label }}',
     'LogUri': 's3n://{{ var.value.logs_bucket }}',
     'Applications': [
