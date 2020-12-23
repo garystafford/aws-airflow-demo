@@ -48,11 +48,24 @@ JOB_FLOW_OVERRIDES = {
         ],
         'KeepJobFlowAliveWhenNoSteps': False,
         'TerminationProtected': False,
-        'Ec2KeyName': "{{ dag_run.conf['emr_ec2_key_pair'] }}",
     },
     'VisibleToAllUsers': True,
     'JobFlowRole': 'EMR_EC2_DefaultRole',
-    'ServiceRole': 'EMR_DefaultRole'
+    'ServiceRole': 'EMR_DefaultRole',
+    "Tags": [
+        {
+            "Key": "Environment",
+            "Value": "Development"
+        },
+        {
+            "Key": "Name",
+            "Value": "EMR Demo Project"
+        },
+        {
+            "Key": "Owner",
+            "Value": "Data Analytics Team"
+        }
+    ]
 }
 
 with DAG(
