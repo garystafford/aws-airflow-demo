@@ -1,12 +1,11 @@
 import os
-from datetime import timedelta
-
 from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
+from datetime import timedelta
 
 # ************** AIRFLOW VARIABLES **************
 bootstrap_bucket = Variable.get('bootstrap_bucket')
@@ -30,19 +29,19 @@ DEFAULT_ARGS = {
 
 SPARK_STEPS = [
     {
-        "Name": "Bakery Sales",
-        "ActionOnFailure": "CONTINUE",
-        "HadoopJarStep": {
-            "Jar": "command-runner.jar",
-            "Args": [
-                "spark-submit",
-                "--deploy-mode",
-                "cluster",
-                "--master",
-                "yarn",
-                "--conf",
-                "spark.yarn.submit.waitAppCompletion=true",
-                "s3a://{{ var.value.work_bucket }}/analyze/bakery_sales_ssm.py"
+        'Name': 'Bakery Sales',
+        'ActionOnFailure': 'CONTINUE',
+        'HadoopJarStep': {
+            'Jar': 'command-runner.jar',
+            'Args': [
+                'spark-submit',
+                '--deploy-mode',
+                'cluster',
+                '--master',
+                'yarn',
+                '--conf',
+                'spark.yarn.submit.waitAppCompletion=true',
+                's3a://{{ var.value.work_bucket }}/analyze/bakery_sales_ssm.py'
             ]
         }
     }
@@ -106,18 +105,18 @@ JOB_FLOW_OVERRIDES = {
     'ServiceRole': '{{ var.value.service_role }}',
     'EbsRootVolumeSize': 32,
     'StepConcurrencyLevel': 1,
-    "Tags": [
+    'Tags': [
         {
-            "Key": "Environment",
-            "Value": "Development"
+            'Key': 'Environment',
+            'Value': 'Development'
         },
         {
-            "Key": "Name",
-            "Value": "EMR Demo Project"
+            'Key': 'Name',
+            'Value': 'Airflow EMR Demo Project'
         },
         {
-            "Key": "Owner",
-            "Value": "Data Analytics Team"
+            'Key': 'Owner',
+            'Value': 'Data Analytics Team'
         }
     ]
 }

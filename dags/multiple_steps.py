@@ -1,14 +1,13 @@
+import boto3
 import json
 import os
-from datetime import timedelta
-
-import boto3
 from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
+from datetime import timedelta
 
 # ************** AIRFLOW VARIABLES **************
 bootstrap_bucket = Variable.get('bootstrap_bucket')
@@ -29,10 +28,6 @@ DEFAULT_ARGS = {
     'email_on_failure': ["{{ dag_run.conf['email_on_failure'] }}"],
     'email_on_retry': ["{{ dag_run.conf['email_on_retry'] }}"],
 }
-
-SPARK_STEPS = []  # replaced with external JSON file
-
-JOB_FLOW_OVERRIDES = {}  # replaced with external JSON file
 
 
 def get_object(object_name):

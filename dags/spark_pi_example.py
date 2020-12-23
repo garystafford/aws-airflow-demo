@@ -1,11 +1,10 @@
 import os
-from datetime import timedelta
-
 from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
 from airflow.utils.dates import days_ago
+from datetime import timedelta
 
 DAG_ID = os.path.basename(__file__).replace('.py', '')
 
@@ -52,18 +51,18 @@ JOB_FLOW_OVERRIDES = {
     'VisibleToAllUsers': True,
     'JobFlowRole': 'EMR_EC2_DefaultRole',
     'ServiceRole': 'EMR_DefaultRole',
-    "Tags": [
+    'Tags': [
         {
-            "Key": "Environment",
-            "Value": "Development"
+            'Key': 'Environment',
+            'Value': 'Development'
         },
         {
-            "Key": "Name",
-            "Value": "EMR Demo Project"
+            'Key': 'Name',
+            'Value': 'Airflow EMR Demo Project'
         },
         {
-            "Key": "Owner",
-            "Value": "Data Analytics Team"
+            'Key': 'Owner',
+            'Value': 'Data Analytics Team'
         }
     ]
 }
