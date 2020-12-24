@@ -69,6 +69,7 @@ def cleanup_db_fn(**kwargs):
 
 with DAG(
         dag_id=os.path.basename(__file__).replace(".py", ""),
+        description='Cleanup Amazon MWAA metadata database',
         default_args=DEFAULT_ARGS,
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),

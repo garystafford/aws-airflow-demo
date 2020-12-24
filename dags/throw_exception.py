@@ -27,7 +27,7 @@ def throw_exception():
 with DAG(
         dag_id=DAG_ID,
         default_args=DEFAULT_ARGS,
-        description='Throwing an exception example',
+        description='Throw an exception',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
         schedule_interval='@once',

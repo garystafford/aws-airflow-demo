@@ -16,11 +16,12 @@ DEFAULT_ARGS = {
 }
 
 
-def print_env_vars(**kwargs):
-    keys=str(os.environ.keys()).replace("', '", "'|'").split("|")
+def print_env_vars():
+    keys = str(os.environ.keys()).replace("', '", "\"|\"").split("|")
     keys.sort()
     for key in keys:
         print(key)
+
 
 with DAG(
         dag_id=DAG_ID,
@@ -32,8 +33,8 @@ with DAG(
         tags=['python']
 ) as dag:
     get_env_vars_operator = PythonOperator(task_id='get_env_vars_task',
-                                      python_callable=print_env_vars,
-                                      provide_context=True,
-                                      dag=dag)
+                                           python_callable=print_env_vars,
+                                           provide_context=True,
+                                           dag=dag)
 
 get_env_vars_operator
