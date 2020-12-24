@@ -1,13 +1,14 @@
-import boto3
 import json
 import os
+from datetime import timedelta
+
+import boto3
 from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
-from datetime import timedelta
 
 # ************** AIRFLOW VARIABLES **************
 bootstrap_bucket = Variable.get('bootstrap_bucket')
@@ -44,6 +45,7 @@ def get_object(object_name):
 
 with DAG(
         dag_id=DAG_ID,
+        description='Run multiple Spark jobs with Amazon EMR',
         default_args=DEFAULT_ARGS,
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),

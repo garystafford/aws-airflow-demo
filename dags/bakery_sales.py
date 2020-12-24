@@ -1,11 +1,12 @@
 import os
+from datetime import timedelta
+
 from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
-from datetime import timedelta
 
 # ************** AIRFLOW VARIABLES **************
 bootstrap_bucket = Variable.get('bootstrap_bucket')
@@ -123,6 +124,7 @@ JOB_FLOW_OVERRIDES = {
 
 with DAG(
         dag_id=DAG_ID,
+        description='Analyze Bakery Sales with Amazon EMR',
         default_args=DEFAULT_ARGS,
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
