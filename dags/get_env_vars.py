@@ -26,7 +26,7 @@ def print_env_vars():
 with DAG(
         dag_id=DAG_ID,
         default_args=DEFAULT_ARGS,
-        description='print all environment variables',
+        description='Print all environment variables to log',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
         schedule_interval='@once',
