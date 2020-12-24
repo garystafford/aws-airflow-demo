@@ -16,25 +16,24 @@ DEFAULT_ARGS = {
 }
 
 
-def print_env_vars(**kwargs):
-    keys = str(os.environ.keys()).replace("', '", "'|'").split("|")
-    keys.sort()
-    for key in keys:
-        print(key)
+def print_airflow_cfg(**kwargs):
+    with open(f"{os.getenv('AIRFLOW_HOME')}/airflow.cfg", 'r') as airflow_cfg:
+        file_contents = airflow_cfg.read()
+        print(f'\n{file_contents}')
 
 
 with DAG(
         dag_id=DAG_ID,
         default_args=DEFAULT_ARGS,
-        description='Print all environment variables to logs',
+        description='Print contents of airflow.cfg to logs',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
         schedule_interval='@once',
         tags=['python']
 ) as dag:
-    get_env_vars_operator = PythonOperator(task_id='get_env_vars_task',
-                                           python_callable=print_env_vars,
-                                           provide_context=True,
-                                           dag=dag)
+    get_airflow_cfg_operator = PythonOperator(task_id='get_airflow_cfg_task',
+                                              python_callable=print_airflow_cfg,
+                                              provide_context=True,
+                                              dag=dag)
 
-get_env_vars_operator
+get_airflow_cfg_operator
