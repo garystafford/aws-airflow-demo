@@ -16,8 +16,8 @@ DEFAULT_ARGS = {
 }
 
 
-def print_env_vars():
-    keys = str(os.environ.keys()).replace("', '", "\"|\"").split("|")
+def print_env_vars(**kwargs):
+    keys = str(os.environ.keys()).replace("', '", "'|'").split("|")
     keys.sort()
     for key in keys:
         print(key)
