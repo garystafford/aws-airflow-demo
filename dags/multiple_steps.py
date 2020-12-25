@@ -2,11 +2,11 @@ import json
 import os
 from datetime import timedelta
 
-import boto3
 from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
+from airflow.hooks.S3_hook import S3Hook
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
 
@@ -31,16 +31,15 @@ DEFAULT_ARGS = {
 }
 
 
-def get_object(object_name):
+def get_object(key, bucket_name):
     """
-    Load EMR Steps from a separate JSON-format file
+    Load S3 object as JSON
     """
 
-    s3_client = boto3.client('s3')
-
-    data = s3_client.get_object(Bucket=work_bucket, Key=f'jobs/{object_name}')
-    json_data = data['Body'].read().decode('utf-8')
-    return json.loads(json_data)
+    hook = S3Hook()
+    content_object = hook.get_key(key=key, bucket_name=bucket_name)
+    file_content = content_object.get()['Body'].read().decode('utf-8')
+    return json.loads(file_content)
 
 
 with DAG(
@@ -54,14 +53,14 @@ with DAG(
 ) as dag:
     cluster_creator = EmrCreateJobFlowOperator(
         task_id='create_job_flow',
-        job_flow_overrides=get_object('job_flow_overrides.json')
+        job_flow_overrides=get_object('jobs/job_flow_overrides.json', work_bucket)
     )
 
     step_adder = EmrAddStepsOperator(
         task_id='add_steps',
         job_flow_id="{{ task_instance.xcom_pull(task_ids='create_job_flow', key='return_value') }}",
         aws_conn_id='aws_default',
-        steps=get_object('emr_steps.json'),
+        steps=get_object('jobs/emr_steps.json', work_bucket),
     )
 
     step_checker = EmrStepSensor(
