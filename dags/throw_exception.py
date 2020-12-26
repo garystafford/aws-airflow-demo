@@ -10,18 +10,18 @@ DAG_ID = os.path.basename(__file__).replace('.py', '')
 DEFAULT_ARGS = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'email': ["{{ dag_run.conf['airflow_email'] }}"],
-    'email_on_failure': True,
+    'email': ['airflow@example.com'],
+    'email_on_failure': False,
     'email_on_retry': False,
 }
 
 
 def print_hello():
-    return 'Hello World'
+    return 'Hello World.'
 
 
 def throw_exception():
-    raise Exception("Goodbye World, an exception has occurred!")
+    raise Exception("Goodbye Cruel World! An exception has occurred!")
 
 
 with DAG(
