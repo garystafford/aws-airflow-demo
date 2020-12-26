@@ -30,7 +30,7 @@ with DAG(
         description='Throw an exception',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
-        schedule_interval='@once',
+        schedule_interval=None,
         tags=['python']
 ) as dag:
     hello_operator = PythonOperator(task_id='hello_task',

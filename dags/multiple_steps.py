@@ -48,7 +48,7 @@ with DAG(
         default_args=DEFAULT_ARGS,
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
-        schedule_interval='@once',
+        schedule_interval=None,
         tags=['emr', 'spark', 'pyspark']
 ) as dag:
     cluster_creator = EmrCreateJobFlowOperator(
