@@ -31,8 +31,9 @@ with DAG(
         schedule_interval='@once',
         tags=['python']
 ) as dag:
-    get_airflow_cfg_operator = PythonOperator(task_id='get_airflow_cfg_task',
-                                              python_callable=print_airflow_cfg,
-                                              dag=dag)
+    get_airflow_cfg_operator = PythonOperator(
+        task_id='get_airflow_cfg_task',
+        python_callable=print_airflow_cfg,
+        dag=dag)
 
 get_airflow_cfg_operator
