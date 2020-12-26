@@ -21,13 +21,12 @@ with DAG(
         description='Print all installed Python packages',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
-        schedule_interval='@once',
-        tags=['python']
+        schedule_interval=None,
+        tags=['bash']
 ) as dag:
     list_python_packages_operator = BashOperator(
         task_id='list_python_packages',
-        bash_command='python3 -m pip list',
-        dag=dag,
+        bash_command='python3 -m pip list'
     )
 
 list_python_packages_operator

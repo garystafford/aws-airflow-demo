@@ -75,7 +75,7 @@ with DAG(
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
         schedule_interval='@once',
-        tags=['emr'],
+        tags=['emr', 'spark']
 ) as dag:
     cluster_creator = EmrCreateJobFlowOperator(
         task_id='create_job_flow',
@@ -86,7 +86,7 @@ with DAG(
         task_id='add_steps',
         job_flow_id="{{ task_instance.xcom_pull(task_ids='create_job_flow', key='return_value') }}",
         aws_conn_id='aws_default',
-        steps=SPARK_STEPS,
+        steps=SPARK_STEPS
     )
 
     step_checker = EmrStepSensor(

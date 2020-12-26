@@ -28,12 +28,12 @@ with DAG(
         description='Print contents of airflow.cfg to logs',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
-        schedule_interval='@once',
+        schedule_interval=None,
         tags=['python']
 ) as dag:
     get_airflow_cfg_operator = PythonOperator(
         task_id='get_airflow_cfg_task',
-        python_callable=print_airflow_cfg,
-        dag=dag)
+        python_callable=print_airflow_cfg
+    )
 
 get_airflow_cfg_operator

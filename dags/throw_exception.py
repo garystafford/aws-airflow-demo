@@ -34,11 +34,9 @@ with DAG(
         tags=['python']
 ) as dag:
     hello_operator = PythonOperator(task_id='hello_task',
-                                    python_callable=print_hello,
-                                    dag=dag)
+                                    python_callable=print_hello)
 
     exception_operator = PythonOperator(task_id='exception_task',
-                                        python_callable=throw_exception,
-                                        dag=dag)
+                                        python_callable=throw_exception)
 
 hello_operator >> exception_operator

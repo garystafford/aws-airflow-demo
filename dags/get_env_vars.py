@@ -31,12 +31,12 @@ with DAG(
         description='Print all environment variables to logs',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
-        schedule_interval='@once',
+        schedule_interval=None,
         tags=['python']
 ) as dag:
     get_env_vars_operator = PythonOperator(
         task_id='get_env_vars_task',
-        python_callable=print_env_vars,
-        dag=dag)
+        python_callable=print_env_vars
+    )
 
 get_env_vars_operator
