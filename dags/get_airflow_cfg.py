@@ -16,7 +16,7 @@ DEFAULT_ARGS = {
 }
 
 
-def print_airflow_cfg(**kwargs):
+def print_airflow_cfg():
     with open(f"{os.getenv('AIRFLOW_HOME')}/airflow.cfg", 'r') as airflow_cfg:
         file_contents = airflow_cfg.read()
         print(f'\n{file_contents}')
@@ -33,7 +33,6 @@ with DAG(
 ) as dag:
     get_airflow_cfg_operator = PythonOperator(task_id='get_airflow_cfg_task',
                                               python_callable=print_airflow_cfg,
-                                              provide_context=True,
                                               dag=dag)
 
 get_airflow_cfg_operator
