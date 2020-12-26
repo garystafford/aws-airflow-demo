@@ -4,12 +4,25 @@
         {
             "Effect": "Allow",
             "Action": [
-                "s3:GetObject",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:*:123412341234:parameter/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::*/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "elasticmapreduce:DescribeStep",
                 "elasticmapreduce:AddJobFlowSteps",
                 "elasticmapreduce:RunJobFlow"
             ],
-            "Resource": "*"
+            "Resource": "arn:aws:elasticmapreduce:*:123412341234:cluster/*"
         },
         {
             "Effect": "Allow",
