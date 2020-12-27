@@ -8,4 +8,6 @@ Project files for the post, [Running PySpark Applications on Amazon EMR using Ap
 
 ## Architecture
 
+Below is the final high-level architecture for the post’s demonstration. The diagram shows the approximate route of a DAG Run request, in red. The diagram includes an optional S3 Gateway VPC endpoint, not detailed in the post, but recommended for additional security. 
+
 ![Architecture](./diagram/Architecture.png)
