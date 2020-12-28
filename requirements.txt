@@ -2,3 +2,4 @@ GitPython~=3.1.11
 apache-airflow==1.10.12
 boto3~=1.14.20
 botocore~=1.17.20
+paramiko~=2.7.2
