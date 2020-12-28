@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Upload DAGs to S3 from GitHub
+# Upload latest DAGs and associated configs to S3 from GitHub
 # Author: Gary A. Stafford (December 2020)
 
 import logging
@@ -20,10 +20,14 @@ ssm_client = boto3.client('ssm')
 def main():
     params = get_parameters()
 
+    # delete local tmp repo
     local_path = '/tmp/aws-airflow-demo'
-    delete_directory(local_path)
+    delete_tmp_dir(local_path)
 
-    clone_repo(local_path)
+    # clone repo to tmp location
+    github_repo = 'https://github.com/garystafford/aws-airflow-demo'
+    branch = 'main'
+    clone_repo(github_repo, branch, local_path)
 
     # upload dags
     path = f'{local_path}/dags'
@@ -41,23 +45,26 @@ def main():
     upload_directory(path, bucket_name)
 
 
-def delete_directory(local_path):
+def delete_tmp_dir(local_path):
+    """ Delete temporary local copy of GitHub repo"""
+
     try:
         shutil.rmtree(local_path)
+        logging.info(f"Temporary directory '{local_path}' deleted")
     except OSError as e:
         logging.error(f'Error: {local_path} : {e.strerror}')
 
 
-def clone_repo(local_path):
-    repo = git.Repo.clone_from('https://github.com/garystafford/aws-airflow-demo',
-                               to_path=local_path,
-                               branch='main')
+def clone_repo(github_repo, branch, local_path):
+    """ Clone GitHub repository to temporary local location"""
 
+    repo = git.Repo.clone_from(url=github_repo, to_path=local_path, branch='main')
     repo.remotes.origin.pull()
+    logging.info(f"GitHub repository '{github_repo}', branch '{branch}' cloned to '{local_path}'")
 
 
 def upload_directory(path, bucket_name):
-    """Uploads DAGs to Amazon S3"""
+    """Uploads files to Amazon S3"""
 
     for root, dirs, files in os.walk(path):
         for file in files:
@@ -66,7 +73,7 @@ def upload_directory(path, bucket_name):
                     file_directory = os.path.basename(os.path.dirname(os.path.join(root, file)))
                     key = f'{file_directory}/{file}'
                     s3_client.upload_file(os.path.join(root, file), bucket_name, key)
-                    print(f"File '{key}' uploaded to bucket '{bucket_name}' as key '{key}'")
+                    logging.info(f"File '{key}' uploaded to bucket '{bucket_name}' as key '{key}'")
             except ClientError as e:
                 logging.error(e)
 
