@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 
-# Upload latest DAGs and associated configs to S3 from GitHub
+# Clone GitHub repo and upload DAGs and associated configs to S3
 # Author: Gary A. Stafford (December 2020)
 
 import logging
 import os
-import shutil
 
 import boto3
-import git
 from botocore.exceptions import ClientError
+from git import Repo, exc
 
 logging.basicConfig(format='[%(asctime)s] %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -20,9 +19,9 @@ ssm_client = boto3.client('ssm')
 def main():
     params = get_parameters()
 
-    # delete local tmp repo
-    local_path = '/tmp/aws-airflow-demo'
-    delete_tmp_dir(local_path)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+
+    local_path = f'{dir_path}/aws-airflow-demo/'
 
     # clone repo to tmp location
     github_repo = 'https://github.com/garystafford/aws-airflow-demo'
@@ -41,26 +40,18 @@ def main():
 
     # upload emr steps
     path = f'{local_path}/emr_steps'
-    bucket_name = params['work_bucket']
     upload_directory(path, bucket_name)
 
 
-def delete_tmp_dir(local_path):
-    """ Delete temporary local copy of GitHub repo"""
+def clone_repo(github_repo, branch, local_path):
+    """ Clone GitHub repository locally"""
 
     try:
-        shutil.rmtree(local_path)
-        logging.info(f"Temporary directory '{local_path}' deleted")
-    except OSError as e:
-        logging.error(f'Error: {local_path} : {e.strerror}')
-
-
-def clone_repo(github_repo, branch, local_path):
-    """ Clone GitHub repository to temporary local location"""
-
-    repo = git.Repo.clone_from(url=github_repo, to_path=local_path, branch='main', depth=1)
-    repo.remotes.origin.pull()
-    logging.info(f"GitHub repository '{github_repo}', branch '{branch}' cloned to '{local_path}'")
+        repo = Repo.clone_from(url=github_repo, to_path=local_path, branch='main', depth=1)
+        repo.remotes.origin.pull()
+        logging.info(f"GitHub repository '{github_repo}', branch '{branch}' cloned to '{local_path}'")
+    except exc.CacheError as e:
+        logging.error(e)
 
 
 def upload_directory(path, bucket_name):
