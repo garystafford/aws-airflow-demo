@@ -58,7 +58,7 @@ def delete_tmp_dir(local_path):
 def clone_repo(github_repo, branch, local_path):
     """ Clone GitHub repository to temporary local location"""
 
-    repo = git.Repo.clone_from(url=github_repo, to_path=local_path, branch='main')
+    repo = git.Repo.clone_from(url=github_repo, to_path=local_path, branch='main', depth=1)
     repo.remotes.origin.pull()
     logging.info(f"GitHub repository '{github_repo}', branch '{branch}' cloned to '{local_path}'")
 
