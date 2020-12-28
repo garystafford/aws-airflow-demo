@@ -53,14 +53,14 @@ with DAG(
 ) as dag:
     cluster_creator = EmrCreateJobFlowOperator(
         task_id='create_job_flow',
-        job_flow_overrides=get_object('jobs/job_flow_overrides.json', work_bucket)
+        job_flow_overrides=get_object('job_flow_overrides/job_flow_overrides.json', work_bucket)
     )
 
     step_adder = EmrAddStepsOperator(
         task_id='add_steps',
         job_flow_id="{{ task_instance.xcom_pull(task_ids='create_job_flow', key='return_value') }}",
         aws_conn_id='aws_default',
-        steps=get_object('jobs/emr_steps.json', work_bucket)
+        steps=get_object('emr_steps/emr_steps.json', work_bucket)
     )
 
     step_checker = EmrStepSensor(
