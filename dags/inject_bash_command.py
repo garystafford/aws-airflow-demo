@@ -18,15 +18,15 @@ DEFAULT_ARGS = {
 with DAG(
         dag_id=DAG_ID,
         default_args=DEFAULT_ARGS,
-        description='Run a dynamic Bash command',
+        description='Run a dynamic Bash command using dag_run.conf',
         dagrun_timeout=timedelta(hours=2),
         start_date=days_ago(1),
         schedule_interval=None,
         tags=['bash']
 ) as dag:
-    list_python_packages_operator = BashOperator(
-        task_id='list_python_packages',
+    bash_command_operator = BashOperator(
+        task_id='run_bash_command',
         bash_command="{{ dag_run.conf['bash_command'] }}"
     )
 
-list_python_packages_operator
+bash_command_operator
