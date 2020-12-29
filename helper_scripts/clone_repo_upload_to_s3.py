@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Clone temporary copy of GitHub repo and upload DAGs and associated configs to S3
+# Clone GitHub repo and upload DAGs and associated configs to S3
 # Author: Gary A. Stafford (December 2020)
 
 import logging
@@ -29,8 +29,8 @@ def main():
     clone_repo(github_repo, branch, local_path)
 
     # upload dags
-    bucket_name = params['airflow_bucket']
     path = f'{local_path}/dags'
+    bucket_name = params['airflow_bucket']
     upload_directory(path, bucket_name)
 
     # upload emr config

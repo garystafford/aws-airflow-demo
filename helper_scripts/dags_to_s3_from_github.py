@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Clone GitHub repo and upload DAGs and associated configs to S3
+# Clone temporary copy of GitHub repo and upload DAGs and associated configs to S3
 # Author: Gary A. Stafford (December 2020)
 
 import logging
@@ -19,9 +19,7 @@ ssm_client = boto3.client('ssm')
 def main():
     params = get_parameters()
 
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-
-    local_path = f'{dir_path}/aws-airflow-demo/'
+    local_path = f'/tmp/aws-airflow-demo/'
 
     # clone repo to tmp location
     github_repo = 'https://github.com/garystafford/aws-airflow-demo'
