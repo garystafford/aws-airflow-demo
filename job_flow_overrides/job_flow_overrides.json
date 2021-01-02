@@ -30,6 +30,7 @@
         ]
       }
     ],
+    "Ec2SubnetId": "{{ var.value.ec2_subnet_id }}",
     "KeepJobFlowAliveWhenNoSteps": false,
     "TerminationProtected": false,
     "Ec2KeyName": "{{ var.value.emr_ec2_key_pair }}"
