@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# MWAA: Trigger an Apache Airflow DAG usign SDK
+# MWAA: Trigger an Apache Airflow DAG using SDK
 # Author: Gary A. Stafford (February 2021)
 
 import logging
