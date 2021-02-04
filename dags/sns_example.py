@@ -29,6 +29,10 @@ def sns_publish(key, bucket_name):
     return json.loads(file_content)
 
 
+"""
+ # Sends a test message from Amazon SNS from Amazon MWAA.
+"""
+
 with DAG(
         dag_id=DAG_ID,
         description='Send a test message to an SNS Topic',
@@ -38,6 +42,7 @@ with DAG(
         schedule_interval=None,
         tags=['sns']
 ) as dag:
+    dag.doc_md = __doc__
     sns_publish = SnsPublishOperator(
         task_id='publish_sns_message',
         target_arn='{{ var.value.sns_topic }}',
