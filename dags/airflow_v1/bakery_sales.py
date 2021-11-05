@@ -5,18 +5,7 @@ from airflow import DAG
 from airflow.contrib.operators.emr_add_steps_operator import EmrAddStepsOperator
 from airflow.contrib.operators.emr_create_job_flow_operator import EmrCreateJobFlowOperator
 from airflow.contrib.sensors.emr_step_sensor import EmrStepSensor
-from airflow.models import Variable
 from airflow.utils.dates import days_ago
-
-# ************** AIRFLOW VARIABLES **************
-bootstrap_bucket = Variable.get('bootstrap_bucket')
-emr_ec2_key_pair = Variable.get('emr_ec2_key_pair')
-job_flow_role = Variable.get('job_flow_role')
-logs_bucket = Variable.get('logs_bucket')
-release_label = Variable.get('release_label')
-service_role = Variable.get('service_role')
-work_bucket = Variable.get('work_bucket')
-# ***********************************************
 
 DAG_ID = os.path.basename(__file__).replace('.py', '')
 

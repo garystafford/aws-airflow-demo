@@ -3,7 +3,7 @@
     "emr_ec2_key_pair": "emr-demo-123412341234-us-east-1",
     "job_flow_role": "EMR_EC2_DemoRole",
     "logs_bucket": "emr-demo-logs-123412341234-us-east-1",
-    "release_label": "emr-6.2.0",
+    "release_label": "emr-6.4.0",
     "service_role": "EMR_DemoRole",
     "work_bucket": "emr-demo-work-123412341234-us-east-1",
     "ec2_subnet_id": "subnet-067e7e7ee0fd99b2b"

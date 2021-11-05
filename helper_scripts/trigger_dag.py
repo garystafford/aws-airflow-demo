@@ -8,13 +8,13 @@ import logging
 import boto3
 import requests
 
-logging.basicConfig(format='[%(asctime)s] %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='[%(asctime)s] %(levelname)s - %(message)s', level=logging.DEBUG)
 
 mwaa_client = boto3.client('mwaa')
 
 ENVIRONMENT_NAME = 'MyAirflowEnvironment'
-DAG_NAME = 'get_env_vars'
-CONFIG = '{"foo": "bar"}'
+DAG_NAME = 'multiple_steps'
+CONFIG = '{"airflow_email":"analytics_team@example.com","email_on_failure":false,"email_on_retry":false}'
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
     token = response['CliToken']
     url = 'https://{0}/aws_mwaa/cli'.format(response['WebServerHostname'])
     headers = {'Authorization': 'Bearer ' + token, 'Content-Type': 'text/plain'}
-    payload = 'trigger_dag {0} --conf {1}'.format(DAG_NAME, CONFIG)
+    payload = "trigger_dag {0} --conf '{1}'".format(DAG_NAME, CONFIG)
 
     logging.debug('token: ' + str(token))
     logging.debug('url: ' + str(url))

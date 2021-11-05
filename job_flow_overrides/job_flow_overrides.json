@@ -22,10 +22,10 @@
       {
         "Name": "CORE",
         "InstanceFleetType": "CORE",
-        "TargetSpotCapacity": 2,
+        "TargetSpotCapacity": 1,
         "InstanceTypeConfigs": [
           {
-            "InstanceType": "r5.2xlarge"
+            "InstanceType": "r5.xlarge"
           }
         ]
       }
