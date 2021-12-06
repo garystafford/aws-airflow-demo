@@ -13,7 +13,7 @@ from airflow.utils.dates import days_ago
 DAG_ID = os.path.basename(__file__).replace(".py", "")
 
 DEFAULT_ARGS = {
-    "owner": "airflow",
+    "owner": "garystafford",
     "depends_on_past": False,
     "email": ["airflow@example.com"],
     "email_on_failure": False,
@@ -109,7 +109,7 @@ with DAG(
     dagrun_timeout=timedelta(hours=2),
     start_date=days_ago(1),
     schedule_interval=None,
-    tags=["emr", "spark", "pyspark"],
+    tags=["emr demo", "spark", "pyspark"],
 ) as dag:
     begin = DummyOperator(task_id="begin")
 

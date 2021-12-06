@@ -13,7 +13,7 @@ from airflow.utils.dates import days_ago
 DAG_ID = os.path.basename(__file__).replace(".py", "")
 
 DEFAULT_ARGS = {
-    "owner": "airflow",
+    "owner": "garystafford",
     "depends_on_past": False,
     "email": ["airflow@example.com"],
     "email_on_failure": False,
@@ -27,7 +27,7 @@ with DAG(
     dagrun_timeout=timedelta(hours=2),
     start_date=days_ago(1),
     schedule_interval=None,
-    tags=["bash"],
+    tags=["utilities", "bash"],
 ) as dag:
     bash_command_operator = BashOperator(
         task_id="run_bash_command", bash_command="{{ dag_run.conf['bash_command'] }}"

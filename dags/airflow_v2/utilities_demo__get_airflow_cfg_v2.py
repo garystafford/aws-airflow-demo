@@ -8,7 +8,7 @@ from airflow.utils.dates import days_ago
 DAG_ID = os.path.basename(__file__).replace(".py", "")
 
 DEFAULT_ARGS = {
-    "owner": "airflow",
+    "owner": "garystafford",
     "depends_on_past": False,
     "email": ["airflow@example.com"],
     "email_on_failure": False,
@@ -29,7 +29,7 @@ with DAG(
     dagrun_timeout=timedelta(hours=2),
     start_date=days_ago(1),
     schedule_interval=None,
-    tags=["python"],
+    tags=["utilities", "python"],
 ) as dag:
     get_airflow_cfg_operator = PythonOperator(
         task_id="get_airflow_cfg_task", python_callable=print_airflow_cfg
