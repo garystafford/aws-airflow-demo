@@ -2,8 +2,8 @@ import os
 from datetime import datetime
 
 from airflow import DAG
-from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.dummy import DummyOperator
+from airflow.operators.python import PythonOperator
 
 DAG_ID = os.path.basename(__file__).replace(".py", "")
 
@@ -34,7 +34,7 @@ with DAG(
     start_date=datetime(2020, 12, 1),
     catchup=False,
 ) as dag:
-    start_task = DummyOperator(task_id="start_task", retries=3)
+    start_task = DummyOperator(task_id="start_task")
 
     python_task = PythonOperator(task_id="python_task", python_callable=python_info)
 

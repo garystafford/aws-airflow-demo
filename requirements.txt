@@ -2,10 +2,8 @@
 # python3 -m pip install --user -U -r requirements.txt
 apache-airflow==2.0.2
 apache-airflow-providers-amazon==1.4.0
-apache-airflow-providers-slack==4.1.0
-boto3==1.19.10
-botocore==1.22.10
-GitPython
-paramiko
+apache-airflow-providers-postgres==1.0.2
+GitPython==3.1.24
+paramiko==2.8.0
 DateTime==4.3
 requests==2.26.0
