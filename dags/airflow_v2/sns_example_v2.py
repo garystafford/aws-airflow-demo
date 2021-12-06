@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from airflow import DAG
 from airflow.models import Variable
+from airflow.operators.dummy import DummyOperator
 from airflow.providers.amazon.aws.operators.sns import SnsPublishOperator
 from airflow.utils.dates import days_ago
 
@@ -33,7 +34,10 @@ with DAG(
         schedule_interval=None,
         tags=['sns']
 ) as dag:
-    dag.doc_md = __doc__
+    begin = DummyOperator(task_id="begin")
+
+    end = DummyOperator(task_id="end")
+
     sns_publish = SnsPublishOperator(
         task_id='publish_sns_message',
         target_arn=sns_topic,
@@ -42,4 +46,4 @@ with DAG(
         subject='Test Message from Amazon MWAA'
     )
 
-    sns_publish
+    begin >> sns_publish >> end

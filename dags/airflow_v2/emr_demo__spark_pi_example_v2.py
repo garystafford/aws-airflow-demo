@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 
 from airflow import DAG
+from airflow.operators.dummy import DummyOperator
 from airflow.providers.amazon.aws.operators.emr_add_steps import EmrAddStepsOperator
 from airflow.providers.amazon.aws.operators.emr_create_job_flow import EmrCreateJobFlowOperator
 from airflow.providers.amazon.aws.sensors.emr_step import EmrStepSensor
@@ -30,7 +31,7 @@ SPARK_STEPS = [
 
 JOB_FLOW_OVERRIDES = {
     'Name': 'demo-cluster-airflow',
-    'ReleaseLabel': 'emr-6.2.0',
+    'ReleaseLabel': 'emr-6.4.0',
     'Applications': [
         {
             'Name': 'Spark'
@@ -77,6 +78,10 @@ with DAG(
         schedule_interval=None,
         tags=['emr', 'spark']
 ) as dag:
+    begin = DummyOperator(task_id="begin")
+
+    end = DummyOperator(task_id="end")
+
     cluster_creator = EmrCreateJobFlowOperator(
         task_id='create_job_flow',
         job_flow_overrides=JOB_FLOW_OVERRIDES
@@ -96,4 +101,4 @@ with DAG(
         aws_conn_id='aws_default',
     )
 
-    cluster_creator >> step_adder >> step_checker
+    begin >> cluster_creator >> step_adder >> step_checker >> end

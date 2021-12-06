@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from airflow import DAG
 from airflow.models import Variable
+from airflow.operators.dummy import DummyOperator
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.providers.amazon.aws.operators.emr_add_steps import EmrAddStepsOperator
 from airflow.providers.amazon.aws.operators.emr_create_job_flow import EmrCreateJobFlowOperator
@@ -50,6 +51,10 @@ with DAG(
         schedule_interval=None,
         tags=['emr', 'spark', 'pyspark']
 ) as dag:
+    begin = DummyOperator(task_id="begin")
+
+    end = DummyOperator(task_id="end")
+
     cluster_creator = EmrCreateJobFlowOperator(
         task_id='create_job_flow',
         job_flow_overrides=get_object('job_flow_overrides/job_flow_overrides.json', work_bucket)
@@ -69,4 +74,4 @@ with DAG(
         aws_conn_id='aws_default'
     )
 
-    cluster_creator >> step_adder >> step_checker
+    begin >> cluster_creator >> step_adder >> step_checker >> end
