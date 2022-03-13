@@ -14,7 +14,7 @@ from datahub_provider.operators.datahub import DatahubEmitterOperator
 
 # override airflow.cfg file's properties in MWAA
 os.environ["AIRFLOW__LINEAGE__BACKEND"] = "datahub_provider.lineage.datahub.DatahubLineageBackend"
-os.environ["AIRFLOW__LINEAGE__DATAHUB_KWARGS"] = '{"datahub_conn_id": "datahub_rest","cluster": "dev","capture_ownership_info": true,"capture_tags_info": true,"graceful_exceptions": true }'
+os.environ["AIRFLOW__LINEAGE__DATAHUB_KWARGS"] = '{"datahub_conn_id": "datahub_rest", "cluster": "dev", "capture_ownership_info": true, "capture_tags_info": true, "graceful_exceptions": true }'
 
 default_args = {
     "owner": "airflow",
