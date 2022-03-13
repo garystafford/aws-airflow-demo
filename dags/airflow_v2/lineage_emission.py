@@ -1,6 +1,9 @@
 """Lineage Emission
 
 This example demonstrates how to emit lineage to DataHub within an Airflow DAG.
+
+Based on reference DataHub DAG:
+https://github.com/linkedin/datahub/blob/master/metadata-ingestion/src/datahub_provider/example_dags/lineage_emission_dag.py
 """
 
 from datetime import timedelta
@@ -12,6 +15,7 @@ from airflow.utils.dates import days_ago
 import datahub.emitter.mce_builder as builder
 from datahub_provider.operators.datahub import DatahubEmitterOperator
 
+# override airflow.cfg properties in MWAA
 os.environ["AIRFLOW__LINEAGE__BACKEND"] = "datahub_provider.lineage.datahub.DatahubLineageBackend"
 os.environ["AIRFLOW__LINEAGE__DATAHUB_KWARGS"] = '{"datahub_conn_id": "datahub_rest","cluster": "dev","capture_ownership_info": true,"capture_tags_info": true,"graceful_exceptions": true }'
 
@@ -22,7 +26,7 @@ default_args = {
     "email_on_failure": False,
     "email_on_retry": False,
     "retries": 1,
-    "retry_delay": timedelta(minutes=5),
+    "retry_delay": timedelta(minutes=1),
     "execution_timeout": timedelta(minutes=120),
 }
 
