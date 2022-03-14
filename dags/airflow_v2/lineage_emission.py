@@ -1,7 +1,6 @@
 """Lineage Emission
-
-This example demonstrates how to emit lineage to DataHub within an Airflow DAG.
-Also, lists contents of airflow.cfg and all env vars.
+Demonstrates how to emit lineage to DataHub within an Airflow DAG using the DatahubEmitterOperator.
+DAG tasks also list contents of airflow.cfg and all env vars.
 
 Based on reference DataHub DAG:
 https://github.com/linkedin/datahub/blob/master/metadata-ingestion/src/datahub_provider/example_dags/lineage_emission_dag.py
@@ -17,7 +16,7 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 from datahub_provider.operators.datahub import DatahubEmitterOperator
 
-# override airflow.cfg file's properties in MWAA
+# override airflow.cfg file's properties in airflow using env vars
 os.environ["AIRFLOW__LINEAGE__BACKEND"] = "datahub_provider.lineage.datahub.DatahubLineageBackend"
 os.environ["AIRFLOW__LINEAGE__DATAHUB_KWARGS"] = \
     '{"datahub_conn_id":"datahub_rest","cluster":"dev","capture_ownership_info":true,"capture_tags_info":true,"graceful_exceptions":true}'
@@ -65,21 +64,21 @@ with DAG(
         mces=[
             builder.make_lineage_mce(
                 upstream_urns=[
-                    builder.make_dataset_urn("glue", "synthea_patient_datahub.patients"),
-                    builder.make_dataset_urn("glue", "synthea_patient_datahub.conditions"),
+                    builder.make_dataset_urn("glue", "mydb.tableA"),
+                    builder.make_dataset_urn("glue", "mydb.tableB"),
                 ],
                 downstream_urn=builder.make_dataset_urn(
-                    "glue", "synthea_patient_datahub.sinusitis_glue",
+                    "glue", "mydb.tableC",
                 )
             )
         ],
     )
     get_airflow_cfg_operator = PythonOperator(
-        task_id="get_airflow_cfg_task", 
+        task_id="get_airflow_cfg_task",
         python_callable=print_airflow_cfg
     )
     get_print_env_vars_operator = PythonOperator(
-        task_id="get_print_env_vars_task", 
+        task_id="get_print_env_vars_task",
         python_callable=print_env_vars
     )
 
