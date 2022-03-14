@@ -1,7 +1,7 @@
 """Lineage Emission
 
 This example demonstrates how to emit lineage to DataHub within an Airflow DAG.
-Also, lists contents of contents of airflow.cfg and all env vars.
+Also, lists contents of airflow.cfg and all env vars.
 
 Based on reference DataHub DAG:
 https://github.com/linkedin/datahub/blob/master/metadata-ingestion/src/datahub_provider/example_dags/lineage_emission_dag.py
