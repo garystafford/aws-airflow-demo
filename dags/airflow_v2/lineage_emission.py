@@ -1,6 +1,6 @@
 """Lineage Emission
 Demonstrates how to emit lineage to DataHub within an Airflow DAG using the DatahubEmitterOperator.
-DAG tasks also list contents of airflow.cfg and all env vars.
+DAG tasks also list contents of airflow.cfg and all environment variables
 
 Based on reference DataHub DAG:
 https://github.com/linkedin/datahub/blob/master/metadata-ingestion/src/datahub_provider/example_dags/lineage_emission_dag.py
@@ -16,7 +16,7 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 from datahub_provider.operators.datahub import DatahubEmitterOperator
 
-# override airflow.cfg file's properties in airflow using env vars
+# override airflow.cfg file's properties in airflow using environment variables
 os.environ["AIRFLOW__LINEAGE__BACKEND"] = "datahub_provider.lineage.datahub.DatahubLineageBackend"
 os.environ["AIRFLOW__LINEAGE__DATAHUB_KWARGS"] = \
     '{"datahub_conn_id":"datahub_rest","cluster":"dev","capture_ownership_info":true,"capture_tags_info":true,"graceful_exceptions":true}'
@@ -31,7 +31,7 @@ def print_airflow_cfg():
         print(f"\n{file_contents}")
 
 
-# print all env vars
+# print all environment variables
 def print_env_vars():
     print("\n".join([f"{k}: {v}" for k, v in sorted(os.environ.items())]))
 
