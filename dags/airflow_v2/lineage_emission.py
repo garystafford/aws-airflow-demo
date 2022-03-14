@@ -75,10 +75,12 @@ with DAG(
         ],
     )
     get_airflow_cfg_operator = PythonOperator(
-        task_id="get_airflow_cfg_task", python_callable=print_airflow_cfg
+        task_id="get_airflow_cfg_task", 
+        python_callable=print_airflow_cfg
     )
     get_print_env_vars_operator = PythonOperator(
-        task_id="get_print_env_vars_task", python_callable=print_env_vars
+        task_id="get_print_env_vars_task", 
+        python_callable=print_env_vars
     )
 
 chain(
